@@ -1,5 +1,16 @@
 import Link from 'next/link';
 
+export async function generateMetadata({ params }: { params: Promise<{ city: string }> }) {
+  const resolvedParams = await params;
+  const rawCity = resolvedParams.city;
+  const cityName = rawCity.charAt(0).toUpperCase() + rawCity.slice(1).replace(/-/g, ' ');
+
+  return {
+    title: `Top Cooking Classes in ${cityName} | Book Instantly`,
+    description: `Find the best cooking classes, culinary workshops, and food experiences in ${cityName}. Compare reviews, prices, and book instantly.`,
+  };
+}
+
 export default async function CityPage({ params }: { params: Promise<{ city: string }> }) {
   const resolvedParams = await params;
   const rawCity = resolvedParams.city;
@@ -42,54 +53,73 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
           <p className="text-gray-500 mt-2 font-medium">Over 50+ classes available. Book instantly.</p>
         </div>
         
-        {/* THE VIATOR WIDGET PLACEHOLDER */}
         <div className="bg-orange-50 border-2 border-dashed border-brand-orange/40 rounded-3xl p-10 text-center mb-10">
-          <h3 className="text-brand-orange font-bold text-lg mb-2">[ Viator Booking Widget Placeholder ]</h3>
+          <h3 className="text-brand-orange font-bold text-lg mb-2">Partner Dashboard Setup</h3>
           <p className="text-sm text-gray-600 font-medium max-w-xl mx-auto">
-            Once Viator approves your account, you will paste the live booking widget code here to seamlessly capture bookings for {cityName}.
+            These cards now dynamically generate Viator Affiliate Links using your exact Partner ID (P00303066). Every time a user clicks one of these cards in any city, you earn a commission on the booking!
           </p>
         </div>
 
-        {/* Class Cards Grid */}
+        {/* Dynamic Viator Affiliate Cards */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           
-          {/* Example Class Card 1 */}
-          <a href="https://www.getyourguide.com?partner_id=UO3Q6U2&cmp=share_to_earn" target="_blank" rel="noopener noreferrer" className="group flex flex-col cursor-pointer">
-            <div className="aspect-[4/3] w-full bg-gray-200 rounded-2xl mb-3 overflow-hidden relative border border-gray-200">
-                <div className="absolute top-3 left-3 bg-white px-2 py-1 rounded-md shadow-sm text-xs font-bold uppercase tracking-wider z-10 flex items-center gap-1">
-                    <span className="text-brand-orange">★</span> 4.98
+          {/* Primary Viator Search Card */}
+          <a href={`https://www.viator.com/searchResults/all?text=cooking+class+${encodeURIComponent(cityName)}&pid=P00303066&mcid=42383&medium=link`} target="_blank" rel="noopener noreferrer" className="group flex flex-col cursor-pointer bg-white rounded-2xl p-4 border border-gray-200 hover:border-brand-orange hover:shadow-xl transition-all">
+            <div className="aspect-[4/3] w-full bg-orange-50 rounded-xl mb-4 overflow-hidden relative flex items-center justify-center">
+                <div className="absolute top-2 left-2 bg-white px-2 py-1 rounded-md shadow-sm text-xs font-bold uppercase tracking-wider z-10 flex items-center gap-1 text-gray-700">
+                    Top Rated
                 </div>
-                <div className="absolute inset-0 flex items-center justify-center text-7xl bg-gray-100 group-hover:scale-105 transition-transform duration-500">
-                    🍝
+                <div className="text-7xl group-hover:scale-110 transition-transform duration-500">
+                    👨‍🍳
                 </div>
             </div>
-            <div className="flex justify-between items-start gap-2">
-                <h3 className="font-bold text-gray-900 text-lg leading-tight group-hover:underline">{cityName}: Handmade Pasta Masterclass</h3>
-            </div>
-            <p className="text-gray-500 text-sm mt-1">Hosted by Chef Mario</p>
-            <p className="text-gray-500 text-sm">3 hours • Equipment included</p>
-            <div className="mt-2 font-medium">
-                <span className="font-bold text-gray-900">From $89</span> <span className="font-normal text-gray-500">/ person</span>
+            <h3 className="font-bold text-gray-900 text-lg leading-tight group-hover:text-brand-orange transition-colors">
+              Browse All Cooking Classes in {cityName}
+            </h3>
+            <p className="text-gray-500 text-sm mt-2 mb-4 leading-relaxed">
+              Explore the highest-rated culinary experiences, local market tours, and private chef workshops in {cityName} on Viator.
+            </p>
+            <div className="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
+                <span className="font-bold text-brand-orange">View options</span>
+                <span className="text-gray-400 group-hover:translate-x-1 transition-transform">→</span>
             </div>
           </a>
 
-          {/* Example Class Card 2 */}
-          <a href="https://www.getyourguide.com?partner_id=UO3Q6U2&cmp=share_to_earn" target="_blank" rel="noopener noreferrer" className="group flex flex-col cursor-pointer">
-            <div className="aspect-[4/3] w-full bg-gray-200 rounded-2xl mb-3 overflow-hidden relative border border-gray-200">
-                <div className="absolute top-3 left-3 bg-white px-2 py-1 rounded-md shadow-sm text-xs font-bold uppercase tracking-wider z-10 flex items-center gap-1">
-                    <span className="text-brand-orange">★</span> 4.85
+          {/* Specific Niche Viator Search Card */}
+          <a href={`https://www.viator.com/searchResults/all?text=pasta+making+class+${encodeURIComponent(cityName)}&pid=P00303066&mcid=42383&medium=link`} target="_blank" rel="noopener noreferrer" className="group flex flex-col cursor-pointer bg-white rounded-2xl p-4 border border-gray-200 hover:border-brand-orange hover:shadow-xl transition-all">
+            <div className="aspect-[4/3] w-full bg-orange-50 rounded-xl mb-4 overflow-hidden relative flex items-center justify-center">
+                <div className="text-7xl group-hover:scale-110 transition-transform duration-500">
+                    🍝
                 </div>
-                <div className="absolute inset-0 flex items-center justify-center text-7xl bg-gray-100 group-hover:scale-105 transition-transform duration-500">
+            </div>
+            <h3 className="font-bold text-gray-900 text-lg leading-tight group-hover:text-brand-orange transition-colors">
+              Pasta Making & Italian Cuisine
+            </h3>
+            <p className="text-gray-500 text-sm mt-2 mb-4 leading-relaxed">
+              Learn to make fresh pasta from scratch with expert local chefs in {cityName}.
+            </p>
+            <div className="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
+                <span className="font-bold text-brand-orange">View options</span>
+                <span className="text-gray-400 group-hover:translate-x-1 transition-transform">→</span>
+            </div>
+          </a>
+
+          {/* Specific Niche Viator Search Card */}
+          <a href={`https://www.viator.com/searchResults/all?text=sushi+making+class+${encodeURIComponent(cityName)}&pid=P00303066&mcid=42383&medium=link`} target="_blank" rel="noopener noreferrer" className="group flex flex-col cursor-pointer bg-white rounded-2xl p-4 border border-gray-200 hover:border-brand-orange hover:shadow-xl transition-all">
+            <div className="aspect-[4/3] w-full bg-orange-50 rounded-xl mb-4 overflow-hidden relative flex items-center justify-center">
+                <div className="text-7xl group-hover:scale-110 transition-transform duration-500">
                     🍣
                 </div>
             </div>
-            <div className="flex justify-between items-start gap-2">
-                <h3 className="font-bold text-gray-900 text-lg leading-tight group-hover:underline">Sushi Rolling & Sake Tasting</h3>
-            </div>
-            <p className="text-gray-500 text-sm mt-1">Hosted by Kenji</p>
-            <p className="text-gray-500 text-sm">2.5 hours • Drinks included</p>
-            <div className="mt-2 font-medium">
-                <span className="font-bold text-gray-900">From $110</span> <span className="font-normal text-gray-500">/ person</span>
+            <h3 className="font-bold text-gray-900 text-lg leading-tight group-hover:text-brand-orange transition-colors">
+              Sushi Rolling & Japanese Cuisine
+            </h3>
+            <p className="text-gray-500 text-sm mt-2 mb-4 leading-relaxed">
+              Master the art of sushi making and Japanese culinary techniques.
+            </p>
+            <div className="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
+                <span className="font-bold text-brand-orange">View options</span>
+                <span className="text-gray-400 group-hover:translate-x-1 transition-transform">→</span>
             </div>
           </a>
 

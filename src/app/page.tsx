@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
+import SearchBar from '@/components/SearchBar';
 
 export const revalidate = 60; // Revalidate every 60 seconds
 
@@ -43,27 +44,7 @@ export default async function Home() {
             Learn from expert chefs, master new recipes, and enjoy unforgettable culinary experiences.
           </p>
 
-          {/* MASSIVE SEARCH BAR */}
-          <div className="bg-white p-2 rounded-full shadow-2xl border border-gray-200 max-w-3xl mx-auto flex flex-col md:flex-row gap-2">
-            <div className="flex-1 flex items-center px-6 py-4">
-              <span className="text-2xl mr-4">📍</span>
-              <div className="text-left w-full">
-                <div className="text-xs font-bold uppercase tracking-wider text-gray-800 mb-1">Location</div>
-                <input type="text" placeholder="Where do you want to cook?" className="w-full bg-transparent border-none outline-none text-gray-900 placeholder-gray-400 font-medium text-lg" />
-              </div>
-            </div>
-            <div className="hidden md:block w-px bg-gray-200 my-4"></div>
-            <div className="flex-1 flex items-center px-6 py-4">
-              <span className="text-2xl mr-4">🍝</span>
-              <div className="text-left w-full">
-                <div className="text-xs font-bold uppercase tracking-wider text-gray-800 mb-1">Cuisine</div>
-                <input type="text" placeholder="Pasta, Sushi, Pastry..." className="w-full bg-transparent border-none outline-none text-gray-900 placeholder-gray-400 font-medium text-lg" />
-              </div>
-            </div>
-            <button className="bg-brand-orange text-white px-10 py-5 rounded-full font-bold text-lg hover:bg-brand-orangeDark transition-colors flex items-center justify-center gap-2 m-1">
-              <span>🔍</span> Search
-            </button>
-          </div>
+          <SearchBar />
           
           <div className="mt-12 flex flex-wrap justify-center items-center gap-3">
             <span className="text-sm font-semibold text-gray-500 uppercase tracking-wide mr-2">Top Cities:</span>
