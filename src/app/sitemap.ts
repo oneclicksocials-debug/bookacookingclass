@@ -28,7 +28,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .select('slug');
 
   const dynamicRoutes = (cities || []).map((city) => ({
-    url: `${baseUrl}/in/${city.slug}`,
+    url: `${baseUrl}/cooking-class/${city.slug}`,
     lastModified: new Date(),
     changeFrequency: 'weekly' as const,
     priority: 0.9,
