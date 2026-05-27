@@ -4,7 +4,6 @@ import { supabase } from '@/lib/supabase';
 export const revalidate = 60; // Revalidate every 60 seconds
 
 export default async function Home() {
-  // Fetch live cities from Supabase
   const { data: cities } = await supabase
     .from('cities')
     .select('*')
@@ -12,194 +11,148 @@ export default async function Home() {
     .order('name');
 
   return (
-    <>
-      <nav>
-        <Link href="/" className="nav-logo">
-          book<span>a</span>cookingclass.com
+    <div className="min-h-screen flex flex-col selection:bg-brand-orange selection:text-white font-sans">
+      
+      {/* AIRBNB-STYLE NAVBAR */}
+      <nav className="fixed top-0 left-0 right-0 z-50 px-6 lg:px-12 py-4 bg-white/90 backdrop-blur-md border-b border-gray-100 flex items-center justify-between">
+        <Link href="/" className="flex items-center gap-2">
+          <div className="w-8 h-8 bg-brand-orange rounded-full flex items-center justify-center text-white text-sm">🍳</div>
+          <span className="font-bold text-xl tracking-tight text-gray-900">bookacookingclass</span>
         </Link>
-        <ul className="nav-links">
-          <li><a href="#how-it-works">How It Works</a></li>
-          <li><a href="#categories">Browse Classes</a></li>
-          <li><a href="#for-hosts">List Your Class</a></li>
-          <li><a href="#browse" className="nav-cta">Find a Class</a></li>
+        <ul className="hidden md:flex items-center gap-8 font-semibold text-sm text-gray-600">
+          <li><a href="#how-it-works" className="hover:text-black transition-colors">How it works</a></li>
+          <li><a href="#for-hosts" className="hover:text-black transition-colors">List your class</a></li>
+          <li>
+            <a href="#browse" className="bg-brand-orange text-white px-5 py-2.5 rounded-full font-bold hover:bg-brand-orangeDark transition-all">
+              Explore classes
+            </a>
+          </li>
         </ul>
       </nav>
 
-      <section className="hero">
-        <div className="hero-inner">
-          <div className="hero-left">
-            <div className="hero-eyebrow">
-              <i className="fas fa-map-marker-alt"></i> Boston & New England
-            </div>
-            <h1>
-              Find your next <em>culinary adventure</em> nearby
-            </h1>
-            <p className="hero-sub">
-              Browse and instantly book cooking classes from local chefs and studios.
-              Perfect for date nights, birthdays, team events, or leveling up your kitchen game.
-            </p>
+      {/* EXPEDIA/AIRBNB HYBRID HERO */}
+      <section className="relative pt-32 pb-20 lg:pt-40 lg:pb-32 px-6 lg:px-12 bg-gray-50 flex items-center justify-center min-h-[80vh] overflow-hidden">
+        {/* Subtle background blob */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[500px] bg-brand-orange/10 blur-[100px] rounded-full pointer-events-none"></div>
+        
+        <div className="max-w-4xl mx-auto relative z-10 text-center w-full">
+          <h1 className="text-5xl lg:text-7xl font-extrabold tracking-tight text-gray-900 mb-6 leading-[1.1]">
+            Find the perfect <span className="text-brand-orange">cooking class</span> near you.
+          </h1>
+          <p className="text-xl text-gray-600 mb-12 font-medium max-w-2xl mx-auto">
+            Learn from expert chefs, master new recipes, and enjoy unforgettable culinary experiences.
+          </p>
 
-            <div className="hero-search">
-              <div className="search-input-wrap">
-                <i className="fas fa-search"></i>
-                <input type="text" placeholder="Search classes, cuisines, or locations…" />
+          {/* MASSIVE SEARCH BAR */}
+          <div className="bg-white p-2 rounded-full shadow-2xl border border-gray-200 max-w-3xl mx-auto flex flex-col md:flex-row gap-2">
+            <div className="flex-1 flex items-center px-6 py-4">
+              <span className="text-2xl mr-4">📍</span>
+              <div className="text-left w-full">
+                <div className="text-xs font-bold uppercase tracking-wider text-gray-800 mb-1">Location</div>
+                <input type="text" placeholder="Where do you want to cook?" className="w-full bg-transparent border-none outline-none text-gray-900 placeholder-gray-400 font-medium text-lg" />
               </div>
-              <button className="search-btn">Search Classes</button>
             </div>
-            
-            {/* Live Supabase Cities */}
-            <div className="hero-tags" style={{ marginTop: '20px' }}>
-              <span style={{ fontSize: '0.85rem', color: 'var(--color-brand-textMuted)', marginRight: '10px' }}>Popular Cities:</span>
-              {cities?.map((city) => (
-                <Link key={city.id} href={`/in/${city.slug}`} className="hero-tag" style={{ textDecoration: 'none' }}>
-                  📍 {city.name}
-                </Link>
-              ))}
+            <div className="hidden md:block w-px bg-gray-200 my-4"></div>
+            <div className="flex-1 flex items-center px-6 py-4">
+              <span className="text-2xl mr-4">🍝</span>
+              <div className="text-left w-full">
+                <div className="text-xs font-bold uppercase tracking-wider text-gray-800 mb-1">Cuisine</div>
+                <input type="text" placeholder="Pasta, Sushi, Pastry..." className="w-full bg-transparent border-none outline-none text-gray-900 placeholder-gray-400 font-medium text-lg" />
+              </div>
             </div>
+            <button className="bg-brand-orange text-white px-10 py-5 rounded-full font-bold text-lg hover:bg-brand-orangeDark transition-colors flex items-center justify-center gap-2 m-1">
+              <span>🔍</span> Search
+            </button>
           </div>
-
-          <div className="hero-visual">
-            <div className="class-cards-preview">
-              <div className="preview-card">
-                <div className="card-emoji">🍝</div>
-                <div className="card-info">
-                  <div className="card-title">Handmade Pasta from Scratch</div>
-                  <div className="card-meta">
-                    <span className="card-rating">★★★★★</span>
-                    <span>4.9 · Boston, MA</span>
-                    <span className="badge-new">New</span>
-                  </div>
-                </div>
-                <div className="card-price">$89</div>
-              </div>
-            </div>
-
-            <div className="hero-stats">
-              <div className="stat-item">
-                <div className="stat-num">{cities?.length || 0}</div>
-                <div className="stat-label">Cities Live</div>
-              </div>
-              <div className="stat-item">
-                <div className="stat-num">50+</div>
-                <div className="stat-label">Local Hosts</div>
-              </div>
-            </div>
+          
+          <div className="mt-12 flex flex-wrap justify-center items-center gap-3">
+            <span className="text-sm font-semibold text-gray-500 uppercase tracking-wide mr-2">Top Cities:</span>
+            {cities?.map((city) => (
+              <Link key={city.id} href={`/in/${city.slug}`} className="px-5 py-2 rounded-full bg-white border border-gray-200 text-sm font-bold text-gray-700 hover:border-brand-orange hover:text-brand-orange hover:shadow-md transition-all">
+                {city.name}
+              </Link>
+            ))}
           </div>
         </div>
       </section>
 
-      <section className="how" id="how-it-works">
-        <div className="section-header">
-          <div className="section-tag">Simple Process</div>
-          <h2>From discovery to dining table in minutes</h2>
-          <p>No back-and-forth. No waiting. Browse, book, and show up hungry.</p>
-        </div>
-
-        <div className="steps">
-          <div className="step" data-num="1">
-            <div className="step-icon"><i className="fas fa-search"></i></div>
-            <h3>Browse & Filter</h3>
-            <p>Search by cuisine, location, group size, price, or date. Find the perfect class for your skill level and schedule.</p>
-          </div>
-          <div className="step" data-num="2">
-            <div className="step-icon"><i className="fas fa-calendar-check"></i></div>
-            <h3>Book Instantly</h3>
-            <p>Reserve your spot in seconds with secure online payment. Instant confirmation sent straight to your inbox.</p>
-          </div>
-          <div className="step" data-num="3">
-            <div className="step-icon"><i className="fas fa-utensils"></i></div>
-            <h3>Cook & Enjoy</h3>
-            <p>Show up, learn from local chefs, eat what you make. Leave with new skills and great memories.</p>
+      {/* AIRBNB STYLE CATEGORIES */}
+      <section className="py-20 px-6 lg:px-12 bg-white" id="how-it-works">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-extrabold text-gray-900 mb-12">How it works</h2>
+          <div className="grid md:grid-cols-3 gap-10">
+            {[
+              { icon: '🔍', title: '1. Find a class', desc: 'Browse hundreds of unique cooking experiences in your city.' },
+              { icon: '📅', title: '2. Book instantly', desc: 'Choose your date and secure your spot with zero hassle.' },
+              { icon: '👨‍🍳', title: '3. Cook & Eat', desc: 'Learn from local pros, eat what you make, and have fun.' }
+            ].map((step, i) => (
+              <div key={i} className="flex flex-col">
+                <div className="text-5xl mb-6">{step.icon}</div>
+                <h3 className="text-xl font-bold mb-3 text-gray-900">{step.title}</h3>
+                <p className="text-gray-600 font-medium leading-relaxed">{step.desc}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      <section className="categories" id="categories">
-        <div className="section-header">
-          <div className="section-tag">Explore</div>
-          <h2>Every cuisine. Every skill level.</h2>
-          <p>From weeknight meals to fine dining techniques — there's a class for every palate.</p>
-        </div>
-
-        <div className="cat-grid">
-          <div className="cat-card">
-            <div className="cat-emoji">🍝</div>
-            <div className="cat-name">Italian</div>
-            <div className="cat-count">24 classes</div>
-          </div>
-          <div className="cat-card">
-            <div className="cat-emoji">🍣</div>
-            <div className="cat-name">Japanese</div>
-            <div className="cat-count">18 classes</div>
-          </div>
-          <div className="cat-card">
-            <div className="cat-emoji">🥐</div>
-            <div className="cat-name">Baking & Pastry</div>
-            <div className="cat-count">22 classes</div>
-          </div>
-          <div className="cat-card">
-            <div className="cat-emoji">🍷</div>
-            <div className="cat-name">Wine & Pairing</div>
-            <div className="cat-count">11 classes</div>
-          </div>
-        </div>
-      </section>
-
-      <section className="for-hosts" id="for-hosts">
-        <div className="hosts-inner">
-          <div className="hosts-left">
-            <div className="section-tag">For Class Hosts</div>
-            <h2>
-              Turn your kitchen into a <em style={{ color: 'var(--color-brand-terracotta)', fontStyle: 'italic' }}>revenue stream</em>
+      {/* MASTERCLASS STYLE HOST SECTION (DARK MODE) */}
+      <section className="py-24 px-6 lg:px-12 bg-[#0F0F0F] text-white" id="for-hosts">
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+          <div>
+            <h2 className="text-4xl lg:text-6xl font-extrabold mb-6 tracking-tight">
+              Share your <span className="text-brand-orange">craft.</span>
             </h2>
-            <p>
-              Whether you're a professional chef, culinary instructor, or passionate home cook — 
-              list your class and reach thousands of local food lovers ready to book.
+            <p className="text-xl text-gray-400 font-medium mb-10 leading-relaxed max-w-md">
+              Are you a chef or culinary expert? Turn your passion into a revenue stream by hosting local cooking classes.
             </p>
-            <div className="host-benefits">
-              <div className="benefit-item">
-                <div className="benefit-icon"><i className="fas fa-bolt"></i></div>
-                <div className="benefit-text">
-                  <strong>Get booked in days, not months</strong>
-                  <span>Your class goes live within 48 hours of submission.</span>
-                </div>
-              </div>
-            </div>
-            <a href="#list" className="btn-primary" style={{ marginTop: '24px' }}>
-              <i className="fas fa-plus"></i> List My Cooking Class — Free
+            <ul className="space-y-6 mb-10">
+              <li className="flex items-center gap-4 text-lg font-medium">
+                <div className="w-8 h-8 rounded-full bg-brand-orange/20 text-brand-orange flex items-center justify-center">✓</div>
+                Reach thousands of local foodies
+              </li>
+              <li className="flex items-center gap-4 text-lg font-medium">
+                <div className="w-8 h-8 rounded-full bg-brand-orange/20 text-brand-orange flex items-center justify-center">✓</div>
+                Free to list, transparent fees
+              </li>
+              <li className="flex items-center gap-4 text-lg font-medium">
+                <div className="w-8 h-8 rounded-full bg-brand-orange/20 text-brand-orange flex items-center justify-center">✓</div>
+                Get booked instantly
+              </li>
+            </ul>
+            <a href="#list" className="inline-block bg-white text-black px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-colors">
+              Start Hosting Today
             </a>
           </div>
-
-          <div className="hosts-right">
-            <div className="pricing-label">Host Pricing</div>
-            <div className="pricing-headline">Simple, transparent fees</div>
-            <div className="pricing-sub">No monthly subscription. We only make money when you do.</div>
-
-            <div className="plan">
-              <div className="plan-top">
-                <div className="plan-name">Starter Listing</div>
+          <div className="relative">
+            <div className="aspect-square bg-gradient-to-tr from-brand-orange to-brand-orangeDark rounded-3xl overflow-hidden p-8 flex flex-col justify-between shadow-2xl">
+              <div className="text-white/80 font-bold uppercase tracking-widest text-sm">Host Dashboard</div>
+              <div>
+                <div className="text-6xl mb-4">📈</div>
+                <h3 className="text-3xl font-extrabold mb-2">Grow your business</h3>
+                <p className="text-white/90 font-medium">Manage bookings, communicate with guests, and get paid automatically.</p>
               </div>
-              <div className="plan-price">Free <span>to list</span></div>
-              <div className="plan-desc" style={{ marginTop: '8px' }}>15% booking fee per reservation. No upfront cost, no risk.</div>
             </div>
           </div>
         </div>
       </section>
 
-      <footer>
-        <div className="footer-inner">
-          <Link href="/" className="footer-logo">
-            book<span>a</span>cookingclass.com
-          </Link>
-          <div className="footer-links">
-            <a href="#">Browse Classes</a>
-            <a href="#">List a Class</a>
-            <a href="#">About</a>
-            <a href="#">Terms</a>
+      {/* FOOTER */}
+      <footer className="bg-gray-50 border-t border-gray-200 py-12 px-6 lg:px-12">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 bg-brand-orange rounded-full flex items-center justify-center text-white text-xs">🍳</div>
+            <span className="font-bold text-lg tracking-tight text-gray-900">bookacookingclass.com</span>
           </div>
-          <div className="footer-copy">© 2026 BookACookingClass.com</div>
+          <div className="flex flex-wrap gap-6 text-sm font-bold text-gray-500">
+            <a href="#" className="hover:text-gray-900 transition-colors">About</a>
+            <a href="#" className="hover:text-gray-900 transition-colors">Support</a>
+            <a href="#" className="hover:text-gray-900 transition-colors">Terms</a>
+            <a href="#" className="hover:text-gray-900 transition-colors">Privacy</a>
+          </div>
+          <div className="text-sm font-medium text-gray-400">© 2026 BookACookingClass.com</div>
         </div>
       </footer>
-    </>
+    </div>
   );
 }

@@ -6,84 +6,107 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
   const cityName = rawCity.charAt(0).toUpperCase() + rawCity.slice(1).replace(/-/g, ' ');
 
   return (
-    <>
-      <nav>
-        <Link href="/" className="nav-logo">
-          book<span>a</span>cookingclass.com
+    <div className="min-h-screen flex flex-col bg-gray-50 selection:bg-brand-orange selection:text-white font-sans">
+      
+      {/* AIRBNB-STYLE NAVBAR */}
+      <nav className="sticky top-0 z-50 px-6 lg:px-12 py-4 bg-white/90 backdrop-blur-md border-b border-gray-200 flex items-center justify-between">
+        <Link href="/" className="flex items-center gap-2">
+          <div className="w-8 h-8 bg-brand-orange rounded-full flex items-center justify-center text-white text-sm">🍳</div>
+          <span className="font-bold text-xl tracking-tight text-gray-900 hidden sm:block">bookacookingclass</span>
         </Link>
-        <div className="nav-right">
-          <Link href="/browse">Browse All Cities</Link>
-          <Link href="/list-your-class" className="nav-cta">List Your Class</Link>
+        <div className="flex flex-1 max-w-md mx-6">
+            <div className="w-full flex items-center bg-gray-100 rounded-full px-4 py-2 hover:bg-gray-200 transition-colors cursor-pointer border border-transparent hover:border-gray-300 shadow-sm">
+                <span className="text-gray-500 mr-2">🔍</span>
+                <span className="text-gray-600 font-medium text-sm flex-1 truncate">{cityName} • Any date • Any class</span>
+            </div>
+        </div>
+        <div className="hidden md:flex items-center gap-6">
+          <Link href="/list-your-class" className="font-bold text-sm text-gray-700 hover:bg-gray-100 px-4 py-2 rounded-full transition-colors">Host a class</Link>
         </div>
       </nav>
 
-      <div className="breadcrumb">
-        <Link href="/">Home</Link>
-        <span>›</span>
-        <span>{cityName}</span>
+      {/* EXPEDIA-STYLE FILTER BAR (Decorative) */}
+      <div className="bg-white border-b border-gray-200 px-6 lg:px-12 py-3 hidden md:flex items-center gap-4 overflow-x-auto no-scrollbar">
+          {['🍝 Pasta', '🍣 Sushi', '🥐 Baking', '🍷 Wine Pairing', '🌮 Mexican', '🔥 Grill', '💑 Date Night', '👨‍👩‍👧 Family Friendly'].map((tag, i) => (
+              <div key={i} className="whitespace-nowrap px-4 py-2 rounded-full border border-gray-200 hover:border-black font-semibold text-sm text-gray-700 cursor-pointer transition-colors">
+                  {tag}
+              </div>
+          ))}
       </div>
 
-      <section className="hero">
-        <div className="hero-inner">
-          <div className="hero-eyebrow">
-            <i className="fas fa-map-marker-alt"></i>
-            {cityName}, USA
-          </div>
-          <h1>Book a Cooking Class in <em>{cityName}</em></h1>
-          <p className="hero-desc">
-            Whether you're a traveler looking for an authentic culinary experience or a local wanting to master new recipes, we've gathered the best classes available in {cityName}.
+      <main className="flex-1 max-w-7xl mx-auto w-full px-6 lg:px-12 py-10">
+        <div className="mb-8">
+          <h1 className="text-3xl lg:text-4xl font-extrabold text-gray-900 tracking-tight">
+            Top cooking classes in {cityName}
+          </h1>
+          <p className="text-gray-500 mt-2 font-medium">Over 50+ classes available. Book instantly.</p>
+        </div>
+        
+        {/* THE VIATOR WIDGET PLACEHOLDER */}
+        <div className="bg-orange-50 border-2 border-dashed border-brand-orange/40 rounded-3xl p-10 text-center mb-10">
+          <h3 className="text-brand-orange font-bold text-lg mb-2">[ Viator Booking Widget Placeholder ]</h3>
+          <p className="text-sm text-gray-600 font-medium max-w-xl mx-auto">
+            Once Viator approves your account, you will paste the live booking widget code here to seamlessly capture bookings for {cityName}.
           </p>
         </div>
-      </section>
 
-      <div className="page-body">
-        <main className="main-content">
-          <h2>Available Cooking Classes in {cityName}</h2>
+        {/* Class Cards Grid */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           
-          {/* THE VIATOR WIDGET PLACEHOLDER */}
-          <div style={{ padding: '24px', background: 'var(--color-brand-cream)', border: '2px dashed var(--color-brand-terracotta)', borderRadius: '12px', textAlign: 'center', marginBottom: '40px' }}>
-            <h3 style={{ color: 'var(--color-brand-terracotta)', marginBottom: '8px' }}>[ Viator Widget Placeholder ]</h3>
-            <p style={{ fontSize: '0.9rem', color: 'var(--color-brand-textMuted)' }}>
-              Once Viator approves your account, paste the live booking widget code here to double conversions!
-            </p>
-          </div>
-
-          <p style={{ marginBottom: '24px' }}>
-            Below are the top-rated cooking experiences currently available in {cityName}. We earn a small referral commission at no extra cost to you.
-          </p>
-
-          <div className="class-cards">
-            {/* GetYourGuide Fallback / Permanent Links */}
-            <a className="class-card fade-in visible" href="https://www.getyourguide.com?partner_id=UO3Q6U2&cmp=share_to_earn" target="_blank" rel="noopener noreferrer">
-              <div className="card-icon">🍝</div>
-              <div className="card-body">
-                <div className="card-platform">via GetYourGuide</div>
-                <div className="card-title">Handmade Pasta from Scratch</div>
-                <div className="card-meta">
-                  <span><i className="fas fa-clock"></i> 3 Hours</span>
-                  <span><i className="fas fa-tag"></i> From $89/person</span>
+          {/* Example Class Card 1 */}
+          <a href="https://www.getyourguide.com?partner_id=UO3Q6U2&cmp=share_to_earn" target="_blank" rel="noopener noreferrer" className="group flex flex-col cursor-pointer">
+            <div className="aspect-[4/3] w-full bg-gray-200 rounded-2xl mb-3 overflow-hidden relative border border-gray-200">
+                <div className="absolute top-3 left-3 bg-white px-2 py-1 rounded-md shadow-sm text-xs font-bold uppercase tracking-wider z-10 flex items-center gap-1">
+                    <span className="text-brand-orange">★</span> 4.98
                 </div>
-                <div className="card-cta">Book on GetYourGuide <i className="fas fa-arrow-right"></i></div>
-              </div>
-            </a>
-          </div>
-        </main>
-      </div>
+                <div className="absolute inset-0 flex items-center justify-center text-7xl bg-gray-100 group-hover:scale-105 transition-transform duration-500">
+                    🍝
+                </div>
+            </div>
+            <div className="flex justify-between items-start gap-2">
+                <h3 className="font-bold text-gray-900 text-lg leading-tight group-hover:underline">{cityName}: Handmade Pasta Masterclass</h3>
+            </div>
+            <p className="text-gray-500 text-sm mt-1">Hosted by Chef Mario</p>
+            <p className="text-gray-500 text-sm">3 hours • Equipment included</p>
+            <div className="mt-2 font-medium">
+                <span className="font-bold text-gray-900">From $89</span> <span className="font-normal text-gray-500">/ person</span>
+            </div>
+          </a>
 
-      <footer>
-        <div className="footer-inner">
-          <Link href="/" className="footer-logo">
-            book<span>a</span>cookingclass.com
-          </Link>
-          <div className="footer-links">
-            <a href="#">Browse Classes</a>
-            <a href="#">List a Class</a>
-            <a href="#">About</a>
-            <a href="#">Terms</a>
+          {/* Example Class Card 2 */}
+          <a href="https://www.getyourguide.com?partner_id=UO3Q6U2&cmp=share_to_earn" target="_blank" rel="noopener noreferrer" className="group flex flex-col cursor-pointer">
+            <div className="aspect-[4/3] w-full bg-gray-200 rounded-2xl mb-3 overflow-hidden relative border border-gray-200">
+                <div className="absolute top-3 left-3 bg-white px-2 py-1 rounded-md shadow-sm text-xs font-bold uppercase tracking-wider z-10 flex items-center gap-1">
+                    <span className="text-brand-orange">★</span> 4.85
+                </div>
+                <div className="absolute inset-0 flex items-center justify-center text-7xl bg-gray-100 group-hover:scale-105 transition-transform duration-500">
+                    🍣
+                </div>
+            </div>
+            <div className="flex justify-between items-start gap-2">
+                <h3 className="font-bold text-gray-900 text-lg leading-tight group-hover:underline">Sushi Rolling & Sake Tasting</h3>
+            </div>
+            <p className="text-gray-500 text-sm mt-1">Hosted by Kenji</p>
+            <p className="text-gray-500 text-sm">2.5 hours • Drinks included</p>
+            <div className="mt-2 font-medium">
+                <span className="font-bold text-gray-900">From $110</span> <span className="font-normal text-gray-500">/ person</span>
+            </div>
+          </a>
+
+        </div>
+      </main>
+
+      {/* FOOTER */}
+      <footer className="bg-white border-t border-gray-200 py-8 px-6 lg:px-12 mt-auto">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="flex items-center gap-2">
+            <span className="font-bold tracking-tight text-gray-900">bookacookingclass</span>
           </div>
-          <div className="footer-copy">© 2026 BookACookingClass.com</div>
+          <div className="text-sm font-medium text-gray-500">
+            © 2026 BookACookingClass.com · Terms · Privacy
+          </div>
         </div>
       </footer>
-    </>
+    </div>
   );
 }
