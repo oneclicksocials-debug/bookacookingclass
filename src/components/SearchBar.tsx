@@ -20,7 +20,7 @@ export default function SearchBar() {
     const slug = city.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
     
     // For now we just route to the city page. We could pass cuisine as a query param later.
-    router.push(`/in/${slug}`);
+    router.push(`/cooking-class/${slug}`);
   };
 
   return (
