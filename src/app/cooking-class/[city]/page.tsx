@@ -146,27 +146,32 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
           {/* 4. Top Classes Section */}
           <h2 id="top-classes" className="text-2xl font-bold mb-6">Top Cooking Classes in {cityName}</h2>
           <div className="space-y-6 mb-12">
-            {/* Card 1 */}
+            {/* Card 1 - REAL DATA (Viator) */}
             <div className="bg-white border border-gray-200 rounded-2xl p-6 flex flex-col md:flex-row gap-6 hover:shadow-lg transition-shadow">
-              <div className="md:w-1/3 aspect-[4/3] bg-green-50 rounded-xl flex items-center justify-center text-7xl">🌿</div>
+              <div className="md:w-1/3 aspect-[4/3] rounded-xl overflow-hidden relative border border-gray-100">
+                <img src="https://dynamic-media.tacdn.com/media/photo-o/2e/fc/fd/19/caption.jpg?w=800&h=600&s=1" alt="Half-Day Thai Cooking Class at Organic Farm in Chiang Mai" className="w-full h-full object-cover" />
+                <div className="absolute top-2 left-2 bg-white/90 backdrop-blur-sm text-gray-900 text-xs font-bold px-2 py-1 rounded-md shadow-sm">
+                  Bestseller
+                </div>
+              </div>
               <div className="flex-1 flex flex-col">
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="text-xl font-bold text-gray-900">Thai Farm Cooking School</h3>
-                  <span className="font-bold text-lg text-gray-900">From $45</span>
+                <div className="flex justify-between items-start mb-2 gap-4">
+                  <h3 className="text-xl font-bold text-gray-900 leading-tight">Half-Day Thai Cooking Class at Organic Farm in Chiang Mai</h3>
+                  <span className="font-extrabold text-lg text-gray-900 shrink-0">From $28</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-gray-500 mb-4">
-                  <span className="text-yellow-500 font-bold">4.9★</span>
-                  <span>(1,200+ reviews)</span>
-                  <span>•</span>
-                  <span>Full day (6 hours)</span>
+                  <span className="text-yellow-500 font-bold">5.0★</span>
+                  <span>(20,105 reviews)</span>
+                  <span className="text-gray-300">•</span>
+                  <span>6 hours</span>
                 </div>
-                <p className="text-gray-600 text-sm mb-4">
-                  <strong>Highlights:</strong> Organic farm visit, market tour, 5 dishes, cookbook included.
+                <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                  Don’t just eat the incredible food in Thailand; with this hands-on half-day experience—you can visit an organic farm and learn how to make local dishes from scratch.
                 </p>
-                <div className="mt-auto">
-                  <a href={`https://www.viator.com/searchResults/all?text=Thai+Farm+Cooking+School+Chiang+Mai&pid=P00303066&mcid=42383&medium=link`} target="_blank" rel="noopener noreferrer" className="inline-block bg-brand-orange text-white font-bold px-6 py-3 rounded-full w-full text-center hover:bg-orange-600 transition-colors">
-                    Book on Viator
-                  </a>
+                <div className="mt-auto pt-4 border-t border-gray-100">
+                  <Link href={`/class/half-day-thai-cooking-class`} className="inline-block bg-gray-900 text-white font-bold px-6 py-3 rounded-full w-full text-center hover:bg-black transition-colors">
+                    View Class Details
+                  </Link>
                 </div>
               </div>
             </div>
