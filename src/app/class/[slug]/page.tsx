@@ -54,7 +54,7 @@ export default async function ClassProductPage({ params }: { params: Promise<{ s
       {/* 1. Breadcrumb */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 py-4 text-sm text-gray-500">
-          <Link href="/" className="hover:text-brand-orange">Home</Link>
+          <a href="/" className="hover:text-brand-orange">Home</a>
           <span className="mx-2">›</span>
           <a href={`/cooking-class/${(classData.city || 'chiang-mai').toLowerCase().replace(/\s+/g, '-')}`} className="hover:text-brand-orange">
             {classData.city || 'City'} Cooking Classes

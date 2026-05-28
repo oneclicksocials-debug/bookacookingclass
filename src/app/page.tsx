@@ -16,10 +16,10 @@ export default async function Home() {
       
       {/* AIRBNB-STYLE NAVBAR */}
       <nav className="fixed top-0 left-0 right-0 z-50 px-6 lg:px-12 py-4 bg-white/90 backdrop-blur-md border-b border-gray-100 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2">
+        <a href="/" className="flex items-center gap-2">
           <div className="w-8 h-8 bg-brand-orange rounded-full flex items-center justify-center text-white text-sm">🍳</div>
           <span className="font-bold text-xl tracking-tight text-gray-900">bookacookingclass</span>
-        </Link>
+        </a>
         <ul className="hidden md:flex items-center gap-8 font-semibold text-sm text-gray-600">
           <li><a href="#how-it-works" className="hover:text-black transition-colors">How it works</a></li>
           <li><a href="#for-hosts" className="hover:text-black transition-colors">List your class</a></li>

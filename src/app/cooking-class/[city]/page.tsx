@@ -108,10 +108,10 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
 
       {/* NAVBAR */}
       <nav className="sticky top-0 z-50 px-6 lg:px-12 py-4 bg-white/90 backdrop-blur-md border-b border-gray-200 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2">
+        <a href="/" className="flex items-center gap-2">
           <div className="w-8 h-8 bg-brand-orange rounded-full flex items-center justify-center text-white text-sm">🍳</div>
           <span className="font-bold text-xl tracking-tight hidden sm:block">bookacookingclass</span>
-        </Link>
+        </a>
         <div className="flex flex-1 max-w-md mx-6">
             <div className="w-full flex items-center bg-gray-100 rounded-full px-4 py-2 hover:bg-gray-200 transition-colors cursor-pointer border border-transparent hover:border-gray-300 shadow-sm">
                 <span className="text-gray-500 mr-2">🔍</span>
@@ -119,13 +119,13 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
             </div>
         </div>
         <div className="hidden md:flex items-center gap-6">
-          <Link href="/list-your-class" className="font-bold text-sm text-gray-700 hover:bg-gray-100 px-4 py-2 rounded-full transition-colors">Host a class</Link>
+          <a href="/list-your-class" className="font-bold text-sm text-gray-700 hover:bg-gray-100 px-4 py-2 rounded-full transition-colors">Host a class</a>
         </div>
       </nav>
 
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 py-4 text-sm text-gray-500 flex gap-2">
-          <Link href="/" className="hover:text-brand-orange">Home</Link>
+          <a href="/" className="hover:text-brand-orange">Home</a>
           <span>›</span>
           <span className="text-gray-900 font-medium">{cityName} Cooking Classes</span>
         </div>
@@ -318,9 +318,9 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
             <h3 className="font-bold text-lg mb-4">Nearby Cities</h3>
             <div className="flex flex-col gap-3">
               {['Bangkok', 'Phuket', 'Pai', 'Koh Samui', 'Chiang Rai'].map((city) => (
-                <Link key={city} href={`/cooking-class/${city.toLowerCase().replace(' ', '-')}`} className="text-gray-600 hover:text-brand-orange hover:underline">
+                <a key={city} href={`/cooking-class/${city.toLowerCase().replace(' ', '-')}`} className="text-gray-600 hover:text-brand-orange hover:underline">
                   Cooking Classes in {city}
-                </Link>
+                </a>
               ))}
             </div>
           </div>
@@ -332,9 +332,9 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
               <p className="text-gray-300 text-sm mb-6 leading-relaxed">
                 List your class free. We handle discovery, payments, and marketing. You cook, we handle the rest.
               </p>
-              <Link href="/list-your-class" className="inline-block bg-white text-gray-900 font-bold px-6 py-2 rounded-full text-sm hover:bg-gray-100 transition-colors">
+              <a href="/list-your-class" className="inline-block bg-white text-gray-900 font-bold px-6 py-2 rounded-full text-sm hover:bg-gray-100 transition-colors">
                 List My Class — Free
-              </Link>
+              </a>
             </div>
             {/* Decorative background element */}
             <div className="absolute -bottom-10 -right-10 text-9xl opacity-10">🍳</div>
@@ -353,9 +353,9 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
           <a href="#top-classes" className="bg-brand-orange text-white font-bold px-8 py-3 rounded-full hover:bg-orange-600 transition-colors shadow-md">
             Browse {cityName} Classes
           </a>
-          <Link href="/browse" className="bg-white text-gray-900 font-bold px-8 py-3 rounded-full hover:bg-gray-50 border border-gray-200 transition-colors shadow-sm">
+          <a href="/browse" className="bg-white text-gray-900 font-bold px-8 py-3 rounded-full hover:bg-gray-50 border border-gray-200 transition-colors shadow-sm">
             View All Destinations
-          </Link>
+          </a>
         </div>
       </div>
 
@@ -366,9 +366,9 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
             <span className="font-bold tracking-tight text-gray-900">bookacookingclass</span>
           </div>
           <div className="flex items-center gap-6 text-sm font-medium text-gray-500">
-            <Link href="/cooking-class/bangkok" className="hover:text-gray-900">Bangkok</Link>
-            <Link href="/cooking-class/bali" className="hover:text-gray-900">Bali</Link>
-            <Link href="/cooking-class/vietnam" className="hover:text-gray-900">Vietnam</Link>
+            <a href="/cooking-class/bangkok" className="hover:text-gray-900">Bangkok</a>
+            <a href="/cooking-class/bali" className="hover:text-gray-900">Bali</a>
+            <a href="/cooking-class/vietnam" className="hover:text-gray-900">Vietnam</a>
           </div>
         </div>
         
