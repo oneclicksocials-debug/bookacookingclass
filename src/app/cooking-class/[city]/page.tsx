@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { supabase } from '@/lib/supabase';
 
 export async function generateMetadata({ params }: { params: Promise<{ city: string }> }) {
   const resolvedParams = await params;
@@ -32,6 +33,13 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
   const resolvedParams = await params;
   const rawCity = resolvedParams.city;
   const cityName = rawCity.charAt(0).toUpperCase() + rawCity.slice(1).replace(/-/g, ' ');
+
+  // Fetch classes dynamically from Supabase
+  const { data: classes } = await supabase
+    .from('classes')
+    .select('*')
+    .ilike('city', cityName)
+    .order('reviews', { ascending: false }); // Sort by most reviews
 
   const faqSchema = {
     "@context": "https://schema.org",
@@ -146,84 +154,42 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
           {/* 4. Top Classes Section */}
           <h2 id="top-classes" className="text-2xl font-bold mb-6">Top Cooking Classes in {cityName}</h2>
           <div className="space-y-6 mb-12">
-            {/* Card 1 - REAL DATA (Viator) */}
-            <div className="bg-white border border-gray-200 rounded-2xl p-6 flex flex-col md:flex-row gap-6 hover:shadow-lg transition-shadow">
-              <div className="md:w-1/3 aspect-[4/3] rounded-xl overflow-hidden relative border border-gray-100">
-                <img src="https://dynamic-media.tacdn.com/media/photo-o/2e/fc/fd/19/caption.jpg?w=800&h=600&s=1" alt="Half-Day Thai Cooking Class at Organic Farm in Chiang Mai" className="w-full h-full object-cover" />
-                <div className="absolute top-2 left-2 bg-white/90 backdrop-blur-sm text-gray-900 text-xs font-bold px-2 py-1 rounded-md shadow-sm">
-                  Bestseller
+            {!classes || classes.length === 0 ? (
+              <p className="text-gray-600">No classes found in {cityName} yet.</p>
+            ) : (
+              classes.map((cls, idx) => (
+                <div key={cls.id} className="bg-white border border-gray-200 rounded-2xl p-6 flex flex-col md:flex-row gap-6 hover:shadow-lg transition-shadow">
+                  <div className="md:w-1/3 aspect-[4/3] rounded-xl overflow-hidden relative border border-gray-100">
+                    <img src={cls.image_url || 'https://via.placeholder.com/800x600'} alt={cls.title} className="w-full h-full object-cover" />
+                    {idx === 0 && (
+                      <div className="absolute top-2 left-2 bg-white/90 backdrop-blur-sm text-gray-900 text-xs font-bold px-2 py-1 rounded-md shadow-sm">
+                        Bestseller
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex-1 flex flex-col">
+                    <div className="flex justify-between items-start mb-2 gap-4">
+                      <h3 className="text-xl font-bold text-gray-900 leading-tight">{cls.title}</h3>
+                      <span className="font-extrabold text-lg text-gray-900 shrink-0">From ${cls.price}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-gray-500 mb-4">
+                      <span className="text-yellow-500 font-bold">{cls.rating}★</span>
+                      <span>({cls.reviews ? cls.reviews.toLocaleString() : 0} reviews)</span>
+                      <span className="text-gray-300">•</span>
+                      <span>{cls.duration || 'Flexible'}</span>
+                    </div>
+                    <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                      {cls.description}
+                    </p>
+                    <div className="mt-auto pt-4 border-t border-gray-100">
+                      <Link href={`/class/${cls.slug}`} className="inline-block bg-gray-900 text-white font-bold px-6 py-3 rounded-full w-full text-center hover:bg-black transition-colors">
+                        View Class Details
+                      </Link>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div className="flex-1 flex flex-col">
-                <div className="flex justify-between items-start mb-2 gap-4">
-                  <h3 className="text-xl font-bold text-gray-900 leading-tight">Half-Day Thai Cooking Class at Organic Farm in Chiang Mai</h3>
-                  <span className="font-extrabold text-lg text-gray-900 shrink-0">From $28</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-gray-500 mb-4">
-                  <span className="text-yellow-500 font-bold">5.0★</span>
-                  <span>(20,105 reviews)</span>
-                  <span className="text-gray-300">•</span>
-                  <span>6 hours</span>
-                </div>
-                <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-                  Don’t just eat the incredible food in Thailand; with this hands-on half-day experience—you can visit an organic farm and learn how to make local dishes from scratch.
-                </p>
-                <div className="mt-auto pt-4 border-t border-gray-100">
-                  <Link href={`/class/half-day-thai-cooking-class`} className="inline-block bg-gray-900 text-white font-bold px-6 py-3 rounded-full w-full text-center hover:bg-black transition-colors">
-                    View Class Details
-                  </Link>
-                </div>
-              </div>
-            </div>
-
-            {/* Card 2 */}
-            <div className="bg-white border border-gray-200 rounded-2xl p-6 flex flex-col md:flex-row gap-6 hover:shadow-lg transition-shadow">
-              <div className="md:w-1/3 aspect-[4/3] bg-orange-50 rounded-xl flex items-center justify-center text-7xl">🍜</div>
-              <div className="flex-1 flex flex-col">
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="text-xl font-bold text-gray-900">Mama Noi Thai Cookery School</h3>
-                  <span className="font-bold text-lg text-gray-900">From $35</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-gray-500 mb-4">
-                  <span className="text-yellow-500 font-bold">4.8★</span>
-                  <span>(900+ reviews)</span>
-                  <span>•</span>
-                  <span>4 hours</span>
-                </div>
-                <p className="text-gray-600 text-sm mb-4">
-                  <strong>Highlights:</strong> Morning market visit, 4 traditional dishes, vegetarian options.
-                </p>
-                <div className="mt-auto">
-                  <a href="#" className="inline-block bg-blue-600 text-white font-bold px-6 py-3 rounded-full w-full text-center hover:bg-blue-700 transition-colors">
-                    Book on GetYourGuide
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* Card 3 */}
-            <div className="bg-white border border-gray-200 rounded-2xl p-6 flex flex-col md:flex-row gap-6 hover:shadow-lg transition-shadow">
-              <div className="md:w-1/3 aspect-[4/3] bg-red-50 rounded-xl flex items-center justify-center text-7xl">👨‍🍳</div>
-              <div className="flex-1 flex flex-col">
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="text-xl font-bold text-gray-900">Small Group Thai Class with Organic Farm</h3>
-                  <span className="font-bold text-lg text-gray-900">From $30</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-gray-500 mb-4">
-                  <span className="text-yellow-500 font-bold">4.9★</span>
-                  <span>•</span>
-                  <span>3.5 hours</span>
-                </div>
-                <p className="text-gray-600 text-sm mb-4">
-                  <strong>Highlights:</strong> Intimate setting, local home kitchen, 3 dishes.
-                </p>
-                <div className="mt-auto">
-                  <a href="#" className="inline-block bg-rose-500 text-white font-bold px-6 py-3 rounded-full w-full text-center hover:bg-rose-600 transition-colors">
-                    Book on Airbnb
-                  </a>
-                </div>
-              </div>
-            </div>
+              ))
+            )}
           </div>
 
           {/* 6. What You'll Learn */}

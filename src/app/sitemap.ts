@@ -22,17 +22,29 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  // 2. Fetch all dynamic cities from Supabase
+  // 2. Fetch all dynamic cities from Supabase (assuming you have this table)
   const { data: cities } = await supabase
     .from('cities')
     .select('slug');
 
-  const dynamicRoutes = (cities || []).map((city) => ({
+  const cityRoutes = (cities || []).map((city) => ({
     url: `${baseUrl}/cooking-class/${city.slug}`,
     lastModified: new Date(),
     changeFrequency: 'weekly' as const,
     priority: 0.9,
   }));
 
-  return [...staticRoutes, ...dynamicRoutes];
+  // 3. Fetch all dynamic classes from Supabase
+  const { data: classes } = await supabase
+    .from('classes')
+    .select('slug');
+
+  const classRoutes = (classes || []).map((cls) => ({
+    url: `${baseUrl}/class/${cls.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: 0.8,
+  }));
+
+  return [...staticRoutes, ...cityRoutes, ...classRoutes];
 }
