@@ -12,12 +12,26 @@ export async function submitHostApplication(formData: FormData) {
     return { error: 'Please fill out all required fields.' };
   }
 
-  // Simulate network delay and database insertion
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  try {
+    const response = await fetch('https://formspree.io/f/mojbrqbj', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name,
+        email,
+        city,
+        message,
+      }),
+    });
 
-  // In the future, this is where we would insert into Supabase or send an email via Resend:
-  // await resend.emails.send({...})
-  // await supabase.from('host_leads').insert({ name, email, city, message })
+    if (!response.ok) {
+      return { error: 'Failed to submit form. Please try again later.' };
+    }
+  } catch (err) {
+    return { error: 'An unexpected error occurred.' };
+  }
 
   return { success: true };
 }
