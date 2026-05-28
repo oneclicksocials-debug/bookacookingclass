@@ -56,8 +56,8 @@ export default async function ClassProductPage({ params }: { params: Promise<{ s
         <div className="max-w-7xl mx-auto px-4 py-4 text-sm text-gray-500">
           <Link href="/" className="hover:text-brand-orange">Home</Link>
           <span className="mx-2">›</span>
-          <Link href={`/cooking-class/${classData.city.toLowerCase().replace(/\s+/g, '-')}`} className="hover:text-brand-orange">
-            {classData.city} Cooking Classes
+          <Link href={`/cooking-class/${(classData.city || 'chiang-mai').toLowerCase().replace(/\s+/g, '-')}`} className="hover:text-brand-orange">
+            {classData.city || 'City'} Cooking Classes
           </Link>
           <span className="mx-2">›</span>
           <span className="text-gray-900 font-medium truncate">{classData.title}</span>
@@ -69,11 +69,11 @@ export default async function ClassProductPage({ params }: { params: Promise<{ s
         
         {/* Left Column: Details */}
         <div className="w-full lg:w-2/3">
-          {classData.reviews && classData.reviews > 1000 && (
+          {classData.reviews && classData.reviews > 1000 ? (
             <div className="inline-block bg-yellow-100 text-yellow-800 text-xs font-bold px-3 py-1 rounded-full mb-4">
               Best Seller
             </div>
-          )}
+          ) : null}
           <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4 tracking-tight">
             {classData.title}
           </h1>
@@ -81,7 +81,7 @@ export default async function ClassProductPage({ params }: { params: Promise<{ s
           <div className="flex flex-wrap items-center gap-4 text-sm font-medium text-gray-700 mb-6">
             <span className="flex items-center gap-1 text-yellow-500">
               ⭐ {classData.rating || 'New'} 
-              {classData.reviews && <span className="text-gray-500 font-normal">({classData.reviews.toLocaleString()} Reviews)</span>}
+              {classData.reviews ? <span className="text-gray-500 font-normal">({classData.reviews.toLocaleString('en-US')} Reviews)</span> : <span className="text-gray-500 font-normal">(0 Reviews)</span>}
             </span>
             <span className="text-gray-300">•</span>
             <span className="flex items-center gap-1">
@@ -89,7 +89,7 @@ export default async function ClassProductPage({ params }: { params: Promise<{ s
             </span>
             <span className="text-gray-300">•</span>
             <span className="flex items-center gap-1">
-              📍 {classData.city}, Thailand
+              📍 {classData.city || 'Location TBA'}
             </span>
           </div>
 

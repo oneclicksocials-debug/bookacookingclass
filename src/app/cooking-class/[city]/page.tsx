@@ -123,73 +123,80 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
         </div>
       </nav>
 
-      <main className="flex-1 max-w-7xl mx-auto w-full px-6 lg:px-12 py-8 flex flex-col lg:flex-row gap-12">
-        
-        {/* MAIN CONTENT AREA */}
-        <div className="flex-1 lg:max-w-3xl">
-          
-          {/* 1. Breadcrumb */}
-          <div className="text-xs font-medium text-gray-500 mb-6 flex items-center gap-2">
-            <Link href="/" className="hover:text-brand-orange hover:underline">Home</Link>
-            <span>›</span>
-            <span className="hover:text-brand-orange hover:underline cursor-pointer">Cooking Classes in Asia</span>
-            <span>›</span>
-            <span className="hover:text-brand-orange hover:underline cursor-pointer">Cooking Classes in Thailand</span>
-            <span>›</span>
-            <span className="text-gray-900">{cityName}</span>
-          </div>
-
-          {/* 2. H1 & Subheading */}
-          <h1 className="text-4xl lg:text-5xl font-extrabold tracking-tight mb-4">
+      <div className="bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 py-4 text-sm text-gray-500 flex gap-2">
+          <Link href="/" className="hover:text-brand-orange">Home</Link>
+          <span>›</span>
+          <span className="text-gray-900 font-medium">{cityName} Cooking Classes</span>
+        </div>
+      </div>
+      
+      <div className="bg-white py-10 border-b border-gray-100">
+        <div className="max-w-7xl mx-auto px-4">
+          <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6 tracking-tight">
             Book a Cooking Class in {cityName}
           </h1>
-          <h2 className="text-xl text-gray-600 font-medium leading-relaxed mb-6">
-            Learn authentic Thai cooking from local chefs — market tours, organic farms, and hands-on technique from $30/person.
-          </h2>
-
-          <p className="text-gray-700 text-lg leading-relaxed mb-10">
-            Chiang Mai is Thailand's culinary capital — a city where food culture runs deeper than any restaurant menu. Cooking classes here don't just teach recipes. They take you to early-morning markets, organic farms, and local home kitchens where you learn the why behind every dish. Whether you want to master green curry paste from scratch or finally nail a proper Pad Thai, a cooking class in Chiang Mai is consistently voted one of the best experiences in Southeast Asia.
+          <p className="text-xl text-gray-600 leading-relaxed max-w-3xl">
+            Learn authentic cooking from local chefs — market tours, organic farms, and hands-on technique from $30/person. {cityName} is a culinary capital where food culture runs deeper than any restaurant menu.
           </p>
+        </div>
+      </div>
 
-          {/* 4. Top Classes Section */}
-          <h2 id="top-classes" className="text-2xl font-bold mb-6">Top Cooking Classes in {cityName}</h2>
-          <div className="space-y-6 mb-12">
+      {/* 2. Main Content Grid */}
+      <div className="max-w-7xl mx-auto px-4 mt-8 flex flex-col lg:flex-row gap-8">
+        
+        {/* Left Column: Grid of Classes */}
+        <div className="w-full lg:w-3/4">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">Top Cooking Classes in {cityName}</h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-12">
             {!classes || classes.length === 0 ? (
               <p className="text-gray-600">No classes found in {cityName} yet.</p>
             ) : (
-              classes.map((cls, idx) => (
-                <div key={cls.id} className="bg-white border border-gray-200 rounded-2xl p-6 flex flex-col md:flex-row gap-6 hover:shadow-lg transition-shadow">
-                  <div className="md:w-1/3 aspect-[4/3] rounded-xl overflow-hidden relative border border-gray-100">
-                    <img src={cls.image_url || 'https://via.placeholder.com/800x600'} alt={cls.title} className="w-full h-full object-cover" />
-                    {idx === 0 && (
-                      <div className="absolute top-2 left-2 bg-white/90 backdrop-blur-sm text-gray-900 text-xs font-bold px-2 py-1 rounded-md shadow-sm">
-                        Bestseller
-                      </div>
-                    )}
+              classes.map((cls) => (
+              <div key={cls.id} className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col group">
+                {/* Image Area */}
+                <div className="relative h-48 w-full overflow-hidden">
+                  {cls.reviews && cls.reviews > 500 && (
+                    <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md text-xs font-bold text-gray-900 z-10">
+                      Bestseller
+                    </div>
+                  )}
+                  <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md text-xs font-bold text-gray-900 z-10 shadow-sm">
+                    From ${cls.price || 30}
                   </div>
-                  <div className="flex-1 flex flex-col">
-                    <div className="flex justify-between items-start mb-2 gap-4">
-                      <h3 className="text-xl font-bold text-gray-900 leading-tight">{cls.title}</h3>
-                      <span className="font-extrabold text-lg text-gray-900 shrink-0">From ${cls.price}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-gray-500 mb-4">
-                      <span className="text-yellow-500 font-bold">{cls.rating}★</span>
-                      <span>({cls.reviews ? cls.reviews.toLocaleString() : 0} reviews)</span>
-                      <span className="text-gray-300">•</span>
-                      <span>{cls.duration || 'Flexible'}</span>
-                    </div>
-                    <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-                      {cls.description}
-                    </p>
-                    <div className="mt-auto pt-4 border-t border-gray-100">
-                      <Link href={`/class/${cls.slug}`} className="inline-block bg-gray-900 text-white font-bold px-6 py-3 rounded-full w-full text-center hover:bg-black transition-colors">
-                        View Class Details
-                      </Link>
-                    </div>
-                  </div>
+                  <img 
+                    src={cls.image_url || 'https://via.placeholder.com/400x300'} 
+                    alt={cls.title} 
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
                 </div>
-              ))
-            )}
+                
+                {/* Content Area */}
+                <div className="p-5 flex flex-col flex-grow">
+                  <h3 className="text-lg font-bold text-gray-900 leading-snug mb-3 line-clamp-2">
+                    {cls.title}
+                  </h3>
+                  
+                  <div className="flex items-center justify-between text-sm text-gray-500 mt-auto mb-4">
+                    <span className="flex items-center gap-1 font-medium">
+                      <span className="text-yellow-500 font-bold">⭐ {cls.rating || '5.0'}</span>
+                      <span>({cls.reviews ? cls.reviews.toLocaleString('en-US') : 0})</span>
+                    </span>
+                    <span className="flex items-center gap-1">
+                      🕒 {cls.duration || 'Flexible'}
+                    </span>
+                  </div>
+                  
+                  <Link 
+                    href={`/class/${cls.slug}`}
+                    className="block w-full bg-gray-900 text-white text-center font-bold py-3 rounded-xl hover:bg-brand-orange transition-colors"
+                  >
+                    View Details
+                  </Link>
+                </div>
+              </div>
+            )))}
           </div>
 
           {/* 6. What You'll Learn */}
@@ -337,7 +344,7 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
           </div>
 
         </div>
-      </main>
+      </div>
 
       {/* 11. Bottom CTA Banner */}
       <div className="bg-brand-orange/10 border-y border-brand-orange/20 py-16 px-6 text-center mt-12">
