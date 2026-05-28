@@ -38,8 +38,8 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
   const { data: classes } = await supabase
     .from('classes')
     .select('*')
-    .ilike('city', cityName)
-    .order('reviews', { ascending: false }); // Sort by most reviews
+    .ilike('city', `%${resolvedParams.city.replace(/-/g, ' ')}%`)
+    .order('reviews', { ascending: false, nullsFirst: false }); // Sort by most reviews
 
   const faqSchema = {
     "@context": "https://schema.org",
@@ -188,12 +188,9 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
                     </span>
                   </div>
                   
-                  <Link 
-                    href={`/class/${cls.slug}`}
-                    className="block w-full bg-gray-900 text-white text-center font-bold py-3 rounded-xl hover:bg-brand-orange transition-colors"
-                  >
-                    View Details
-                  </Link>
+                  <a href={`/class/${cls.slug}`} className="block mt-4 text-center w-full bg-[#1A233A] text-white py-3 rounded-xl font-bold hover:bg-[#253251] transition-colors shadow-md">
+                      View Details
+                    </a>
                 </div>
               </div>
             )))}

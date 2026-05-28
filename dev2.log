@@ -1,0 +1,13 @@
+
+> bookacookingclass@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.1.55:3000
+- Environments: .env.local
+✓ Ready in 478ms
+
+ GET /cooking-class/chiang-mai 200 in 3.0s (next.js: 2.1s, application-code: 865ms)
+ GET /class/chiang-mai-half-day-lanna-style-thai-cooking-market-tour 200 in 930ms (next.js: 795ms, application-code: 135ms)
+[?25h

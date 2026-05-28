@@ -49,9 +49,9 @@ export default async function Home() {
           <div className="mt-12 flex flex-wrap justify-center items-center gap-3">
             <span className="text-sm font-semibold text-gray-500 uppercase tracking-wide mr-2">Top Cities:</span>
             {cities?.map((city) => (
-              <Link key={city.id} href={`/cooking-class/${city.slug}`} className="px-5 py-2 rounded-full bg-white border border-gray-200 text-sm font-bold text-gray-700 hover:border-brand-orange hover:text-brand-orange hover:shadow-md transition-all">
+              <a key={city.id} href={`/cooking-class/${city.slug}`} className="px-5 py-2 rounded-full bg-white border border-gray-200 text-sm font-bold text-gray-700 hover:border-brand-orange hover:text-brand-orange hover:shadow-md transition-all">
                 {city.name}
-              </Link>
+              </a>
             ))}
           </div>
         </div>
