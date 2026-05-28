@@ -144,7 +144,7 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
           </p>
 
           {/* 4. Top Classes Section */}
-          <h2 className="text-2xl font-bold mb-6">Top Cooking Classes in {cityName}</h2>
+          <h2 id="top-classes" className="text-2xl font-bold mb-6">Top Cooking Classes in {cityName}</h2>
           <div className="space-y-6 mb-12">
             {/* Card 1 */}
             <div className="bg-white border border-gray-200 rounded-2xl p-6 flex flex-col md:flex-row gap-6 hover:shadow-lg transition-shadow">
@@ -375,9 +375,9 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
           Browse all available classes, compare prices, and book your spot in seconds.
         </p>
         <div className="flex flex-col sm:flex-row justify-center gap-4">
-          <button onClick={() => window.scrollTo({top: 500, behavior: 'smooth'})} className="bg-brand-orange text-white font-bold px-8 py-3 rounded-full hover:bg-orange-600 transition-colors shadow-md">
+          <a href="#top-classes" className="bg-brand-orange text-white font-bold px-8 py-3 rounded-full hover:bg-orange-600 transition-colors shadow-md">
             Browse {cityName} Classes
-          </button>
+          </a>
           <Link href="/browse" className="bg-white text-gray-900 font-bold px-8 py-3 rounded-full hover:bg-gray-50 border border-gray-200 transition-colors shadow-sm">
             View All Destinations
           </Link>
