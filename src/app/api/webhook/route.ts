@@ -5,7 +5,7 @@ import { supabase } from '@/lib/supabase';
 
 // Initialize SDKs gracefully
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_mock', {
-  apiVersion: '2025-01-27.acacia',
+  apiVersion: '2026-05-27.dahlia' as any,
 });
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
