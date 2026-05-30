@@ -9,7 +9,8 @@ export default async function Home() {
     .from('cities')
     .select('*')
     .eq('is_active', true)
-    .order('name');
+    .order('name')
+    .limit(12);
 
   return (
     <div className="min-h-screen flex flex-col selection:bg-brand-orange selection:text-white font-sans">
