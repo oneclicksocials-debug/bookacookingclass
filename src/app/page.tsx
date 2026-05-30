@@ -11,9 +11,9 @@ export default async function Home() {
     .eq('is_active', true)
     .order('name');
 
-  const { data: topTokyo } = await supabase.from('classes').select('*').ilike('city', '%tokyo%').order('reviews', { ascending: false }).limit(3);
-  const { data: topRome } = await supabase.from('classes').select('*').ilike('city', '%rome%').order('reviews', { ascending: false }).limit(3);
-  const { data: topParis } = await supabase.from('classes').select('*').ilike('city', '%paris%').order('reviews', { ascending: false }).limit(3);
+  const { data: topTokyo } = await supabase.from('classes').select('*').ilike('city', '%tokyo%').order('reviews', { ascending: false, nullsFirst: false }).limit(3);
+  const { data: topRome } = await supabase.from('classes').select('*').ilike('city', '%rome%').order('reviews', { ascending: false, nullsFirst: false }).limit(3);
+  const { data: topParis } = await supabase.from('classes').select('*').ilike('city', '%paris%').order('reviews', { ascending: false, nullsFirst: false }).limit(3);
 
   const renderClassCard = (cls: any) => (
     <div key={cls.id} className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col group h-full">
