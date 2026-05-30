@@ -9,8 +9,43 @@ export default async function Home() {
     .from('cities')
     .select('*')
     .eq('is_active', true)
-    .order('name')
-    .limit(50);
+    .order('name');
+
+  const { data: topTokyo } = await supabase.from('classes').select('*').ilike('city', '%tokyo%').order('reviews', { ascending: false }).limit(3);
+  const { data: topRome } = await supabase.from('classes').select('*').ilike('city', '%rome%').order('reviews', { ascending: false }).limit(3);
+  const { data: topParis } = await supabase.from('classes').select('*').ilike('city', '%paris%').order('reviews', { ascending: false }).limit(3);
+
+  const renderClassCard = (cls: any) => (
+    <div key={cls.id} className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col group h-full">
+      <div className="relative h-48 w-full overflow-hidden shrink-0">
+        <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md text-xs font-bold text-gray-900 z-10 shadow-sm">
+          From ${cls.price || 30}
+        </div>
+        <img 
+          src={cls.image_url || 'https://via.placeholder.com/400x300'} 
+          alt={cls.title} 
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+        />
+      </div>
+      <div className="p-5 flex flex-col flex-grow">
+        <h3 className="text-lg font-bold text-gray-900 leading-snug mb-3 line-clamp-2">
+          {cls.title}
+        </h3>
+        <div className="flex items-center justify-between text-sm text-gray-500 mt-auto mb-4">
+          <span className="flex items-center gap-1 font-medium">
+            <span className="text-yellow-500 font-bold">⭐ {cls.rating || '5.0'}</span>
+            <span>({cls.reviews ? cls.reviews.toLocaleString('en-US') : 0})</span>
+          </span>
+          <span className="flex items-center gap-1">
+            🕒 {cls.duration || 'Flexible'}
+          </span>
+        </div>
+        <a href={`/class/${cls.slug}`} className="block mt-auto text-center w-full bg-[#1A233A] text-white py-3 rounded-xl font-bold hover:bg-[#253251] transition-colors shadow-md">
+            View Details
+        </a>
+      </div>
+    </div>
+  );
 
   return (
     <div className="min-h-screen flex flex-col selection:bg-brand-orange selection:text-white font-sans">
@@ -47,13 +82,78 @@ export default async function Home() {
 
           <SearchBar />
           
-          <div className="mt-12 flex flex-wrap justify-center items-center gap-3">
-            <span className="text-sm font-semibold text-gray-500 uppercase tracking-wide mr-2">Top Cities:</span>
-            {cities?.map((city) => (
-              <a key={city.id} href={`/cooking-class/${city.slug}`} className="px-5 py-2 rounded-full bg-white border border-gray-200 text-sm font-bold text-gray-700 hover:border-brand-orange hover:text-brand-orange hover:shadow-md transition-all">
-                {city.name}
-              </a>
-            ))}
+          <div className="mt-12">
+            <span className="text-sm font-semibold text-gray-500 uppercase tracking-wide block mb-4 md:inline-block md:mb-0 md:mr-4">Top Destinations:</span>
+            <div className="flex flex-wrap justify-center items-center gap-3">
+              {cities?.slice(0, 10).map((city) => (
+                <a key={city.id} href={`/cooking-class/${city.slug}`} className="px-5 py-2 rounded-full bg-white border border-gray-200 text-sm font-bold text-gray-700 hover:border-brand-orange hover:text-brand-orange hover:shadow-md transition-all">
+                  {city.name}
+                </a>
+              ))}
+              
+              <div className="relative group inline-block z-[100]">
+                <button className="px-5 py-2 rounded-full bg-gray-100 border border-gray-200 text-sm font-bold text-gray-700 hover:bg-gray-200 transition-all flex items-center gap-2">
+                  More Cities <span className="text-xs">▼</span>
+                </button>
+                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-72 bg-white border border-gray-200 shadow-2xl rounded-2xl p-4 hidden group-hover:block transition-all">
+                   <div className="max-h-72 overflow-y-auto grid grid-cols-2 gap-x-4 gap-y-3 p-1">
+                     {cities?.slice(10).map((city) => (
+                       <a key={city.id} href={`/cooking-class/${city.slug}`} className="text-sm text-gray-600 hover:text-brand-orange hover:font-bold truncate">
+                         {city.name}
+                       </a>
+                     ))}
+                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* TOP CLASSES SHOWCASE */}
+      <section className="py-16 px-6 lg:px-12 bg-white">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-extrabold text-gray-900 mb-12">Trending Cooking Classes</h2>
+          
+          <div className="space-y-16">
+            {/* Tokyo Showcase */}
+            {topTokyo && topTokyo.length > 0 && (
+              <div>
+                <div className="flex justify-between items-end mb-6 border-b border-gray-100 pb-4">
+                  <h3 className="text-2xl font-bold text-gray-900">Most Popular in Tokyo 🇯🇵</h3>
+                  <a href="/cooking-class/tokyo" className="text-brand-orange font-bold hover:underline flex items-center gap-1">See all <span className="text-xl">›</span></a>
+                </div>
+                <div className="grid md:grid-cols-3 gap-6">
+                  {topTokyo.map(renderClassCard)}
+                </div>
+              </div>
+            )}
+
+            {/* Rome Showcase */}
+            {topRome && topRome.length > 0 && (
+              <div>
+                <div className="flex justify-between items-end mb-6 border-b border-gray-100 pb-4">
+                  <h3 className="text-2xl font-bold text-gray-900">Most Popular in Rome 🇮🇹</h3>
+                  <a href="/cooking-class/rome" className="text-brand-orange font-bold hover:underline flex items-center gap-1">See all <span className="text-xl">›</span></a>
+                </div>
+                <div className="grid md:grid-cols-3 gap-6">
+                  {topRome.map(renderClassCard)}
+                </div>
+              </div>
+            )}
+
+            {/* Paris Showcase */}
+            {topParis && topParis.length > 0 && (
+              <div>
+                <div className="flex justify-between items-end mb-6 border-b border-gray-100 pb-4">
+                  <h3 className="text-2xl font-bold text-gray-900">Most Popular in Paris 🇫🇷</h3>
+                  <a href="/cooking-class/paris" className="text-brand-orange font-bold hover:underline flex items-center gap-1">See all <span className="text-xl">›</span></a>
+                </div>
+                <div className="grid md:grid-cols-3 gap-6">
+                  {topParis.map(renderClassCard)}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -78,43 +178,40 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* MASTERCLASS STYLE HOST SECTION (DARK MODE) */}
-      <section className="py-24 px-6 lg:px-12 bg-[#0F0F0F] text-white" id="for-hosts">
+      {/* MASTERCLASS STYLE HOST SECTION (LIGHT MODE) */}
+      <section className="py-24 px-6 lg:px-12 bg-gray-50 text-gray-900" id="for-hosts">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
           <div>
-            <h2 className="text-4xl lg:text-6xl font-extrabold mb-6 tracking-tight">
+            <h2 className="text-4xl lg:text-6xl font-extrabold mb-6 tracking-tight text-gray-900">
               Share your <span className="text-brand-orange">craft.</span>
             </h2>
-            <p className="text-xl text-gray-400 font-medium mb-10 leading-relaxed max-w-md">
-              Are you a chef or culinary expert? Turn your passion into a revenue stream by hosting local cooking classes.
+            <p className="text-xl text-gray-600 font-medium mb-10 leading-relaxed max-w-md">
+              Are you a cooking creator? Turn your recipe followers into a revenue stream by hosting live Zoom cooking classes.
             </p>
             <ul className="space-y-6 mb-10">
-              <li className="flex items-center gap-4 text-lg font-medium">
-                <div className="w-8 h-8 rounded-full bg-brand-orange/20 text-brand-orange flex items-center justify-center">✓</div>
-                Reach thousands of local foodies
+              <li className="flex items-center gap-4 text-lg font-medium text-gray-800">
+                <div className="w-8 h-8 rounded-full bg-brand-orange/10 text-brand-orange flex items-center justify-center">✓</div>
+                Teach your signature dish live
               </li>
-              <li className="flex items-center gap-4 text-lg font-medium">
-                <div className="w-8 h-8 rounded-full bg-brand-orange/20 text-brand-orange flex items-center justify-center">✓</div>
-                Free to list, transparent fees
+              <li className="flex items-center gap-4 text-lg font-medium text-gray-800">
+                <div className="w-8 h-8 rounded-full bg-brand-orange/10 text-brand-orange flex items-center justify-center">✓</div>
+                We handle payments and Zoom links
               </li>
-              <li className="flex items-center gap-4 text-lg font-medium">
-                <div className="w-8 h-8 rounded-full bg-brand-orange/20 text-brand-orange flex items-center justify-center">✓</div>
-                Get booked instantly
+              <li className="flex items-center gap-4 text-lg font-medium text-gray-800">
+                <div className="w-8 h-8 rounded-full bg-brand-orange/10 text-brand-orange flex items-center justify-center">✓</div>
+                Stop relying on brand deals
               </li>
             </ul>
-            <a href="#list" className="inline-block bg-white text-black px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-colors">
+            <Link href="/creators" className="inline-block bg-brand-orange text-white px-8 py-4 rounded-full font-bold text-lg hover:opacity-90 transition-opacity shadow-lg shadow-brand-orange/30">
               Start Hosting Today
-            </a>
+            </Link>
           </div>
           <div className="relative">
-            <div className="aspect-square bg-gradient-to-tr from-brand-orange to-brand-orangeDark rounded-3xl overflow-hidden p-8 flex flex-col justify-between shadow-2xl">
-              <div className="text-white/80 font-bold uppercase tracking-widest text-sm">Host Dashboard</div>
-              <div>
-                <div className="text-6xl mb-4">📈</div>
-                <h3 className="text-3xl font-extrabold mb-2">Grow your business</h3>
-                <p className="text-white/90 font-medium">Manage bookings, communicate with guests, and get paid automatically.</p>
-              </div>
-            </div>
+            <img 
+              src="/hero-cooking.png" 
+              alt="Creator teaching a live cooking class from their kitchen" 
+              className="rounded-3xl shadow-2xl object-cover w-full aspect-square opacity-90 hover:opacity-100 transition-opacity"
+            />
           </div>
         </div>
       </section>

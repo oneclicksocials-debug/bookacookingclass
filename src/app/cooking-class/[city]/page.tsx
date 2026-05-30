@@ -28,19 +28,27 @@ export async function generateMetadata({ params }: { params: Promise<{ city: str
   };
 }
 
-export default async function CityPage({ params }: { params: Promise<{ city: string }> }) {
+export default async function CityPage({ params, searchParams }: { params: Promise<{ city: string }>, searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
   const resolvedParams = await params;
+  const resolvedSearchParams = await searchParams;
   const rawCity = resolvedParams.city.toLowerCase();
   const cityName = rawCity.charAt(0).toUpperCase() + rawCity.slice(1).replace(/-/g, ' ');
+  const searchQuery = typeof resolvedSearchParams.q === 'string' ? resolvedSearchParams.q : '';
 
   const customContent = cityContents[rawCity];
 
   // Fetch classes dynamically from Supabase
-  const { data: classes } = await supabase
+  let query = supabase
     .from('classes')
     .select('*')
     .ilike('city', `%${resolvedParams.city.replace(/-/g, ' ')}%`)
     .order('reviews', { ascending: false, nullsFirst: false });
+
+  if (searchQuery) {
+    query = query.or(`title.ilike.%${searchQuery}%,description.ilike.%${searchQuery}%`);
+  }
+
+  const { data: classes } = await query;
 
   // Generate FAQ schema
   const faqs = customContent?.faqs || [

@@ -16,11 +16,13 @@ export default function SearchBar() {
         return;
     }
     
-    // Convert "New York City" to "new-york-city"
     const slug = city.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
     
-    // For now we just route to the city page. We could pass cuisine as a query param later.
-    window.location.href = `/cooking-class/${slug}`;
+    let url = `/cooking-class/${slug}`;
+    if (cuisine.trim()) {
+      url += `?q=${encodeURIComponent(cuisine.trim())}`;
+    }
+    window.location.href = url;
   };
 
   return (

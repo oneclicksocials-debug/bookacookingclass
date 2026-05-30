@@ -69,6 +69,11 @@ async function processFile(filePath) {
         }
 
         const slug = slugify(rawTitle);
+        const imageUrl = data['_image_1sry4_321 src'] || data['Image'];
+
+        if (!imageUrl || imageUrl.trim() === '') {
+          return; // Skip this class completely if it has no real image
+        }
 
         results.push({
           slug: slug,
@@ -79,7 +84,7 @@ async function processFile(filePath) {
           rating: isNaN(rating) ? null : rating,
           reviews: isNaN(reviews) ? null : reviews,
           duration: data['_featuresCompact_vgyoo_546'] || data['Duration'] || null,
-          image_url: data['_image_1sry4_321 src'] || data['Image'] || 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?q=80&w=2940&auto=format&fit=crop', // default image if missing
+          image_url: imageUrl,
           affiliate_link: url
         });
       })
