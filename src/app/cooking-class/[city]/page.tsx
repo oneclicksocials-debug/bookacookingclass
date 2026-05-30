@@ -96,13 +96,13 @@ export default async function CityPage({ params, searchParams }: { params: Promi
         <h3 className="text-lg font-bold text-gray-900 leading-snug mb-3 line-clamp-2">
           {cls.title}
         </h3>
-        <div className="flex items-center justify-between text-sm text-gray-500 mt-auto mb-4">
-          <span className="flex items-center gap-1 font-medium">
+        <div className="flex flex-wrap items-center justify-between text-sm text-gray-500 mt-auto mb-4 gap-2">
+          <span className="flex items-center gap-1 font-medium shrink-0 whitespace-nowrap">
             <span className="text-yellow-500 font-bold">⭐ {cls.rating || '5.0'}</span>
             <span>({cls.reviews ? cls.reviews.toLocaleString('en-US') : 0})</span>
           </span>
-          <span className="flex items-center gap-1">
-            🕒 {cls.duration || 'Flexible'}
+          <span className="flex items-center gap-1 truncate text-right">
+            🕒 {cls.duration ? cls.duration.replace('Free Cancellation', '').trim() : 'Flexible'}
           </span>
         </div>
         <a href={`/class/${cls.slug}`} className="block mt-4 text-center w-full bg-[#1A233A] text-white py-3 rounded-xl font-bold hover:bg-[#253251] transition-colors shadow-md">
