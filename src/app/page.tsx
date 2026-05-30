@@ -10,7 +10,7 @@ export default async function Home() {
     .select('*')
     .eq('is_active', true)
     .order('name')
-    .limit(12);
+    .limit(50);
 
   return (
     <div className="min-h-screen flex flex-col selection:bg-brand-orange selection:text-white font-sans">
